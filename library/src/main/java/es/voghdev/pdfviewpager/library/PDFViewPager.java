@@ -24,6 +24,7 @@ import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
 
 public class PDFViewPager extends ViewPager {
     protected Context context;
+    protected PDFPagerAdapter adapter;
 
     public PDFViewPager(Context context, String pdfPath) {
         super(context);
@@ -59,6 +60,7 @@ public class PDFViewPager extends ViewPager {
     }
 
     protected void initAdapter(Context context, String pdfPath){
-        setAdapter(new PDFPagerAdapter(context, pdfPath));
+        adapter = new PDFPagerAdapter(context, pdfPath);
+        setAdapter(adapter);
     }
 }

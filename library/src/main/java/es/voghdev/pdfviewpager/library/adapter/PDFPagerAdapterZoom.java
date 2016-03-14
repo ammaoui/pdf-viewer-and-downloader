@@ -27,10 +27,13 @@ import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 
 import es.voghdev.pdfviewpager.library.R;
+import es.voghdev.pdfviewpager.library.view.Zoomable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class PDFPagerAdapterZoom extends PDFPagerAdapter {
+public class PDFPagerAdapterZoom extends PDFPagerAdapter implements Zoomable{
+    protected static final float NO_SCALE = 0f;
 
+    float scale = NO_SCALE;
     SparseArray<WeakReference<PhotoViewAttacher>> attachers;
 
     public PDFPagerAdapterZoom(Context context, String pdfPath) {
@@ -59,6 +62,10 @@ public class PDFPagerAdapterZoom extends PDFPagerAdapter {
         bitmaps.put(position, new WeakReference<Bitmap>(bitmap));
         attachers.put(position, new WeakReference<PhotoViewAttacher>(attacher));
         iv.setImageBitmap(bitmap);
+
+        if(scale != NO_SCALE)
+            attacher.setScale(scale);
+
         attacher.update();
         ((ViewPager) container).addView(v, 0);
 
@@ -72,5 +79,11 @@ public class PDFPagerAdapterZoom extends PDFPagerAdapter {
             attachers.clear();
             attachers = null;
         }
+    }
+
+    @Override
+    public void zoomTo(float scale) {
+        this.scale = scale;
+        notifyDataSetChanged();
     }
 }

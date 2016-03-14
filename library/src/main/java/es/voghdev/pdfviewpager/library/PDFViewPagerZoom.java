@@ -20,8 +20,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapterZoom;
+import es.voghdev.pdfviewpager.library.view.Zoomable;
 
-public class PDFViewPagerZoom extends PDFViewPager {
+public class PDFViewPagerZoom extends PDFViewPager implements Zoomable{
+    Zoomable zoomable = new ZoomableNullObject();
+
     public PDFViewPagerZoom(Context context, String pdfPath) {
         super(context, pdfPath);
     }
@@ -31,7 +34,11 @@ public class PDFViewPagerZoom extends PDFViewPager {
     }
 
     protected void initAdapter(Context context, String pdfPath){
-        setAdapter(new PDFPagerAdapterZoom(context, pdfPath));
+        adapter = new PDFPagerAdapterZoom(context, pdfPath);
+        if(adapter instanceof Zoomable)
+            this.zoomable = (Zoomable) adapter;
+
+        setAdapter(adapter);
     }
 
     /**
@@ -45,5 +52,14 @@ public class PDFViewPagerZoom extends PDFViewPager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void zoomTo(float scale) {
+        zoomable.zoomTo(scale);
+    }
+
+    private class ZoomableNullObject implements Zoomable {
+        public void zoomTo(float scale) { /* Empty */ }
     }
 }

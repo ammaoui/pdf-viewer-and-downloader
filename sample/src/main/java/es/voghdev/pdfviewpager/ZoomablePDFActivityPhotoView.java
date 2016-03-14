@@ -21,8 +21,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import es.voghdev.pdfviewpager.library.PDFViewPager;
-import es.voghdev.pdfviewpager.library.PDFViewPagerZoom;
 import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
+import es.voghdev.pdfviewpager.library.view.Zoomable;
 
 public class ZoomablePDFActivityPhotoView extends AppCompatActivity{
     PDFViewPager pdfViewPager;
@@ -34,6 +34,8 @@ public class ZoomablePDFActivityPhotoView extends AppCompatActivity{
         setTitle(R.string.zoomable_asset_on_xml);
         setContentView(R.layout.activity_zoomable_pdf_xml_photoview);
         pdfViewPager = (PDFViewPager) findViewById(R.id.pdfViewPagerZoom);
+        if(pdfViewPager instanceof Zoomable)
+            ((Zoomable)pdfViewPager).zoomTo(2.0f);
     }
 
     @Override

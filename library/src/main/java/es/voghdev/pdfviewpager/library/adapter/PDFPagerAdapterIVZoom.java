@@ -25,9 +25,13 @@ import android.view.ViewGroup;
 import java.lang.ref.WeakReference;
 
 import es.voghdev.pdfviewpager.library.R;
+import es.voghdev.pdfviewpager.library.view.Zoomable;
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
-public class PDFPagerAdapterIVZoom extends PDFPagerAdapter {
+public class PDFPagerAdapterIVZoom extends PDFPagerAdapter implements Zoomable{
+    protected static final float NO_SCALE = 0f;
+
+    private float scale = NO_SCALE;
 
     public PDFPagerAdapterIVZoom(Context context, String pdfPath) {
         super(context, pdfPath);
@@ -51,8 +55,18 @@ public class PDFPagerAdapterIVZoom extends PDFPagerAdapter {
 
         bitmaps.put(position, new WeakReference<Bitmap>(bitmap));
         ivt.setImageBitmap(bitmap);
+
+        if(scale != NO_SCALE)
+            ivt.zoomTo(scale, 500);
+
         ((ViewPager) container).addView(v, 0);
 
         return v;
+    }
+
+    @Override
+    public void zoomTo(float scale) {
+        this.scale = scale;
+        notifyDataSetChanged();
     }
 }
