@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import es.voghdev.pdfviewpager.library.R;
 import es.voghdev.pdfviewpager.library.view.Zoomable;
@@ -31,10 +33,12 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 public class PDFPagerAdapterIVZoom extends PDFPagerAdapter implements Zoomable{
     protected static final float NO_SCALE = 0f;
 
+    Map<Integer, ImageViewTouch> pages;
     private float scale = NO_SCALE;
 
     public PDFPagerAdapterIVZoom(Context context, String pdfPath) {
         super(context, pdfPath);
+        pages = new HashMap<>();
     }
 
     @Override

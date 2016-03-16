@@ -39,6 +39,7 @@ public class PDFPagerAdapterZoom extends PDFPagerAdapter implements Zoomable{
     public PDFPagerAdapterZoom(Context context, String pdfPath) {
         super(context, pdfPath);
         attachers = new SparseArray<>();
+        scale = 2.5f;
     }
 
     @Override
