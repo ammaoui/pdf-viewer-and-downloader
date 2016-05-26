@@ -23,12 +23,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.github.barteksc.pdfviewpager.PDFViewPager;
+import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
+import com.github.barteksc.pdfviewpager.asset.CopyAsset;
+import com.github.barteksc.pdfviewpager.asset.CopyAssetThreadImpl;
+
 import java.io.File;
 
-import es.voghdev.pdfviewpager.library.PDFViewPager;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
-import es.voghdev.pdfviewpager.library.asset.CopyAsset;
-import es.voghdev.pdfviewpager.library.asset.CopyAssetThreadImpl;
 
 public class AssetOnSDActivity extends AppCompatActivity{
     final String[] sampleAssets = {"adobe.pdf","sample.pdf"};

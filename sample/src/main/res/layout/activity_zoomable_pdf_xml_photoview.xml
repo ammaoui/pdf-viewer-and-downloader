@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="fill_parent"
@@ -12,10 +12,19 @@
         android:text="And this one is zoomable"
         />
 
-    <es.voghdev.pdfviewpager.library.PDFViewPagerZoom
+    <com.github.barteksc.pdfviewpager.PDFViewPagerZoom
         android:id="@+id/pdfViewPagerZoom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:assetFileName="adobe.pdf"/>
-</LinearLayout>
+        app:assetFileName="adobe.pdf"
+        android:layout_below="@+id/textView1"
+        android:layout_toLeftOf="@+id/scrollBar"/>
+
+    <com.github.barteksc.pdfviewpager.view.ScrollBar
+        android:id="@+id/scrollBar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
 

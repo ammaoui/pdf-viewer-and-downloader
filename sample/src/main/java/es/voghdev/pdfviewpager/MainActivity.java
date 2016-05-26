@@ -20,8 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import es.voghdev.pdfviewpager.library.PDFViewPager;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
+import com.github.barteksc.pdfviewpager.PDFViewPager;
+import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
+
 
 public class MainActivity extends AppCompatActivity {
     PDFViewPager pdfViewPager;

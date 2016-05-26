@@ -26,10 +26,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.barteksc.pdfviewpager.remote.DownloadFile;
+import com.github.barteksc.pdfviewpager.remote.DownloadFileUrlConnectionImpl;
+
 import java.io.File;
 
-import es.voghdev.pdfviewpager.library.remote.DownloadFile;
-import es.voghdev.pdfviewpager.library.remote.DownloadFileUrlConnectionImpl;
 
 /**
  * Sample Activity for API Levels under 21

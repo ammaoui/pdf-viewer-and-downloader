@@ -20,9 +20,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import es.voghdev.pdfviewpager.library.PDFViewPager;
-import es.voghdev.pdfviewpager.library.PDFViewPagerIVZoom;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
+import com.github.barteksc.pdfviewpager.PDFViewPager;
+import com.github.barteksc.pdfviewpager.PDFViewPagerIVZoom;
+import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
+
 
 public class ZoomablePDFActivityIVZoom extends AppCompatActivity{
     PDFViewPager pdfViewPager;

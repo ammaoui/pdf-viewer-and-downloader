@@ -18,10 +18,11 @@ package es.voghdev.pdfviewpager;
 import android.app.Application;
 import android.os.Handler;
 
+import com.github.barteksc.pdfviewpager.asset.CopyAsset;
+import com.github.barteksc.pdfviewpager.asset.CopyAssetThreadImpl;
+
 import java.io.File;
 
-import es.voghdev.pdfviewpager.library.asset.CopyAsset;
-import es.voghdev.pdfviewpager.library.asset.CopyAssetThreadImpl;
 
 public class SampleApplication extends Application{
     final String[] sampleAssets = {"adobe.pdf","sample.pdf"};

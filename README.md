@@ -1,20 +1,32 @@
 # PdfViewPager
 
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PdfViewPager-green.svg?style=true)](https://android-arsenal.com/details/1/3155)
-
 Android widget to display PDF documents in your Activities or Fragments.
 
-Important note: **PDFViewPager** uses [PdfRenderer][6] class, which works **only on API 21 or higher**.
-See [Official doc][6] for details.
+Important note: **PDFViewPager** uses [PdfiumAndroid][6] lib, which works **on API 9 or higher**.
 
-If you are targeting pre-Lollipop devices, have a look at the [legacy sample][7]
+[Legacy sample][7] is left, because it may be useful for someone...
+
+Changes in this fork
+--------------------
+* uses [PdfiumAndroid][6] instead of PdfRenderer
+* uses [VerticalViewPager][11] for vertical scrolling
+* optimizes memory usage by recycling views and bitmaps during scroll
+* loads PDF pages in separated AsyncTasks
+* added scrollbar for quick document browsing
+* added convinient AsyncTask for loading adapter with document asynchronously (it doesn't lag UI)
+
+... so nearly whole library has changed and I decided to change Java package name to
+
+`com.github.barteksc`
+
+Classes and other packages' names are untouched.
 
 Installation
 ------------
 
 Add this line in your *app/build.gradle*
 
-    compile 'es.voghdev.pdfviewpager:library:0.2.1'
+    compile 'com.github.barteksc:pdf-view-pager:1.0.1'
 
 Usage - Remote PDF's
 --------------------
@@ -127,16 +139,57 @@ Use **PDFViewPager** class to load PDF from your SD card
         return f.getAbsolutePath();
     }
 
+Usage - scrollbar
+-----------------
+
+Use **ScrollBar** class to place scrollbar view near **PdfViewPager**
+
+1.- in layout XML (it's important that the parent view is **RelativeLayout**)
+
+``` xml
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+    <com.github.barteksc.pdfviewpager.PDFViewPagerZoom
+        android:id="@+id/pdfViewPagerZoom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:assetFileName="adobe.pdf"
+        android:layout_below="@+id/textView1"
+        android:layout_toLeftOf="@+id/scrollBar"/>
+
+    <com.github.barteksc.pdfviewpager.view.ScrollBar
+        android:id="@+id/scrollBar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
+```
+2.- in activity or fragment
+``` java
+
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ...
+
+        PdfViewPager pdfViewPager = (PDFViewPager) findViewById(R.id.pdfViewPagerZoom);
+        ScrollBar scrollBar = (ScrollBar) findViewById(R.id.scrollBar);
+        scrollBar.setVerticalViewPager(pdfViewPager);
+    }
+
+```
+
 TODOs
 -----
 
-- [X] Load PDF documents from SD card
-- [X] Make PDF documents zoomable with pinch and double tap (first approach made possible thanks to [ImageViewZoom][5]
-- [ ] Unify all features in only one **PDFViewPager** class
-- [X] Support API Levels under 21, by downloading PDF and invoking system native intent.
-- [X] UI tests
-
-See [changelog][4] for details
+- [ ] adapt scrollbar for handling big number of pages
+- [ ] update documentation in this readme
 
 Developed By
 ------------
@@ -150,9 +203,12 @@ Developed By
   <img alt="Find me on Linkedin" src="http://imageshack.us/a/img41/7877/smallld.png" />
 </a>
 
+* Heavily modified by Bartosz Schiller
+
 # License
 
-    Copyright 2015 Olmo Gallegos Hernández
+    Original work Copyright 2015 Olmo Gallegos Hernández
+    Modified work Copyright 2016 Bartosz Schiller
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -179,10 +235,10 @@ Contributing
 [localPDFScreenshot]: ./screenshots/local.gif
 [sdcardPDFScreenshot]: ./screenshots/sdcard.gif
 [zoomingScreenshot]: ./screenshots/zooming.gif
-[4]: https://github.com/voghDev/PdfViewPager/blob/master/CHANGELOG.md
 [5]: https://github.com/sephiroth74/ImageViewZoom
-[6]: http://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html
-[7]: https://github.com/voghDev/PdfViewPager/blob/master/sample/src/main/java/es/voghdev/pdfviewpager/LegacyPDFActivity.java
-[8]: https://github.com/voghDev/PdfViewPager/tree/master/sample/src/main/java/es/voghdev/pdfviewpager
+[6]: https://github.com/barteksc/PdfiumAndroid
+[7]: https://github.com/barteksc/PdfViewPager/blob/master/sample/src/main/java/es/voghdev/pdfviewpager/LegacyPDFActivity.java
+[8]: https://github.com/barteksc/PdfViewPager/tree/master/sample/src/main/java/es/voghdev/pdfviewpager
 [9]: http://twitter.com/voghDev
 [10]: http://www.mobiledevstories.com
+[11]: https://github.com/castorflex/VerticalViewPager

@@ -1,1 +1,1 @@
-include ':sample', ':library'
+include ':sample', ':pdf-view-pager'

@@ -24,10 +24,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
-import es.voghdev.pdfviewpager.library.remote.DownloadFile;
-import es.voghdev.pdfviewpager.library.util.FileUtil;
+import com.github.barteksc.pdfviewpager.RemotePDFViewPager;
+import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
+import com.github.barteksc.pdfviewpager.remote.DownloadFile;
+import com.github.barteksc.pdfviewpager.util.FileUtil;
+
 
 public class RemotePDFActivity extends AppCompatActivity implements DownloadFile.Listener {
     LinearLayout root;

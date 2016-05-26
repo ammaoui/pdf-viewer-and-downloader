@@ -20,12 +20,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import es.voghdev.pdfviewpager.library.PDFViewPager;
-import es.voghdev.pdfviewpager.library.PDFViewPagerZoom;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
+import com.github.barteksc.pdfviewpager.PDFViewPager;
+import com.github.barteksc.pdfviewpager.adapter.PDFPagerAdapter;
+import com.github.barteksc.pdfviewpager.view.ScrollBar;
+
 
 public class ZoomablePDFActivityPhotoView extends AppCompatActivity{
     PDFViewPager pdfViewPager;
+    ScrollBar scrollBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class ZoomablePDFActivityPhotoView extends AppCompatActivity{
         setTitle(R.string.zoomable_asset_on_xml);
         setContentView(R.layout.activity_zoomable_pdf_xml_photoview);
         pdfViewPager = (PDFViewPager) findViewById(R.id.pdfViewPagerZoom);
+        scrollBar = (ScrollBar) findViewById(R.id.scrollBar);
+        scrollBar.setVerticalViewPager(pdfViewPager);
     }
 
     @Override

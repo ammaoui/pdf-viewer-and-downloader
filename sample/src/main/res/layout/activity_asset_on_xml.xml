@@ -12,7 +12,7 @@
         android:text="This is a PDF, set up in XML file"
         />
 
-    <es.voghdev.pdfviewpager.library.PDFViewPager
+    <com.github.barteksc.pdfviewpager.PDFViewPager
         android:id="@+id/pdfViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
