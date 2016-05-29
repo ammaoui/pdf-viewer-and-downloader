@@ -64,17 +64,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.dummy_msg, Toast.LENGTH_LONG).show();
     }
 
-    public void onClickSample5(View v){
-        AssetOnXMLActivity.open(this);
-        ZoomablePDFOnXMLActivity.open(this);
-    }
-
     public void onClickSample6(View v){
         LegacyPDFActivity.open(this);
-    }
-
-    public void onClickSample7(View v){
-        ZoomablePDFActivityIVZoom.open(this);
     }
 
     public void onClickSample8(View v){

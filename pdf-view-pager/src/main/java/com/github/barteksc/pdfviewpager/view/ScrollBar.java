@@ -37,15 +37,15 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = ScrollBar.class.getSimpleName();
 
-    private int handlerColor = 0;
+    private int handleColor = 0;
     private int indicatorColor = 0;
     private int indicatorTextColor = 0;
 
-    private Paint handlerPaint;
-    private float handlerHeight = 0;
+    private Paint handlePaint;
+    private float handleHeight = 0;
     private int viewWidth;
     private VerticalViewPager viewPager;
-    private PointF handlerPos;
+    private PointF handlePos;
     private ViewPager.OnPageChangeListener viewPagerListener;
     private int viewPagerScrollState = ViewPager.SCROLL_STATE_IDLE;
     private int currentPage = 0;
@@ -85,15 +85,15 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
             }
         });
 
-        handlerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        handlerPaint.setStyle(Paint.Style.FILL);
-        handlerPaint.setColor(handlerColor);
+        handlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        handlePaint.setStyle(Paint.Style.FILL);
+        handlePaint.setColor(handleColor);
 
         if (getBackground() == null) {
             setBackgroundColor(Color.LTGRAY);
         }
 
-        handlerPos = new PointF(0, 0);
+        handlePos = new PointF(0, 0);
 
         viewWidth = Util.getDP(getContext(), 30);
     }
@@ -102,7 +102,7 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ScrollBar, defStyleAttr, 0);
 
         try {
-            handlerColor = a.getColor(R.styleable.ScrollBar_sb_handlerColor, Color.parseColor("#FF4081"));
+            handleColor = a.getColor(R.styleable.ScrollBar_sb_handleColor, Color.parseColor("#FF4081"));
             indicatorColor = a.getColor(R.styleable.ScrollBar_sb_indicatorColor, Color.parseColor("#FF4081"));
             indicatorTextColor = a.getColor(R.styleable.ScrollBar_sb_indicatorTextColor, Color.WHITE);
         } finally {
@@ -129,13 +129,13 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         if (isViewPagerReady()) {
-            calculateHandlerHeight();
-            calculateHandlerPosByPage(currentPage);
+            calculateHandleHeight();
+            calculateHandlePosByPage(currentPage);
         }
     }
 
-    float getHandlerHeight() {
-        return handlerHeight;
+    float getHandleHeight() {
+        return handleHeight;
     }
 
     @Override
@@ -154,24 +154,24 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
         super.onDraw(canvas);
 
         if (isInEditMode()) {
-            canvas.drawRect(0, 0, getWidth(), Util.getDP(getContext(), 40), handlerPaint);
+            canvas.drawRect(0, 0, getWidth(), Util.getDP(getContext(), 40), handlePaint);
             return;
         } else if (!isViewPagerReady()) {
             return;
         }
 
-        calculateHandlerHeight();
+        calculateHandleHeight();
 
-        canvas.drawRect(handlerPos.x, handlerPos.y, getWidth(), handlerPos.y + handlerHeight, handlerPaint);
+        canvas.drawRect(handlePos.x, handlePos.y, getWidth(), handlePos.y + handleHeight, handlePaint);
 
     }
 
-    private void calculateHandlerPosByPage(int position) {
-        handlerPos.y = position * handlerHeight;
+    private void calculateHandlePosByPage(int position) {
+        handlePos.y = position * handleHeight;
     }
 
-    private void calculateHandlerHeight() {
-        handlerHeight = getHeight() / (float) viewPager.getAdapter().getCount();
+    private void calculateHandleHeight() {
+        handleHeight = getHeight() / (float) viewPager.getAdapter().getCount();
     }
 
     private boolean isViewPagerReady() {
@@ -193,28 +193,28 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
                 if (y < 0 || y > getHeight())
                     return true;
 
-                int pageNum = (int) Math.floor(y / handlerHeight);
+                int pageNum = (int) Math.floor(y / handleHeight);
 
-                float handlerY = pageNum * handlerHeight;
-                if (handlerY < 0) {
-                    handlerY = 0;
-                } else if (y + handlerHeight / 2 > getHeight()) {
-                    handlerY = getHeight() - handlerHeight;
+                float handleY = pageNum * handleHeight;
+                if (handleY < 0) {
+                    handleY = 0;
+                } else if (y + handleHeight / 2 > getHeight()) {
+                    handleY = getHeight() - handleHeight;
                 }
-                handlerPos.y = handlerY;
+                handlePos.y = handleY;
 
                 if (pageNum != currentPage) {
                     indicator.setPageNum(pageNum + 1);
                 }
                 currentPage = pageNum;
                 indicator.setVisibility(VISIBLE);
-                indicator.setScroll(handlerY);
+                indicator.setScroll(handleY);
                 invalidate();
                 return true;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
-                int pgNum = (int) Math.floor(event.getY() / handlerHeight);
+                int pgNum = (int) Math.floor(event.getY() / handleHeight);
                 programmaticPageChangeLocked = true;
                 viewPager.setCurrentItem(pgNum);
                 currentPage = pgNum;
@@ -230,7 +230,7 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (!programmaticPageChangeLocked) {
             currentPage = position;
-            handlerPos.y = position * handlerHeight + positionOffset * handlerHeight;
+            handlePos.y = position * handleHeight + positionOffset * handleHeight;
 
             invalidate();
         }
@@ -245,7 +245,7 @@ public class ScrollBar extends View implements ViewPager.OnPageChangeListener {
         if (!programmaticPageChangeLocked) {
             //if(viewPagerScrollState == ViewPager.SCROLL_STATE_IDLE) {
             currentPage = position;
-            calculateHandlerPosByPage(position);
+            calculateHandlePosByPage(position);
             invalidate();
             //}
         }

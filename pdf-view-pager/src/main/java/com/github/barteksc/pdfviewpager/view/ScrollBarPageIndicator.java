@@ -71,7 +71,7 @@ public class ScrollBarPageIndicator extends RelativeLayout {
      */
     void setScroll(float y) {
         if (getVisibility() == VISIBLE) {
-            y -= Util.getDP(getContext(), INDICATOR_HEIGHT / 2) - scrollBar.getHandlerHeight() / 2;
+            y -= Util.getDP(getContext(), INDICATOR_HEIGHT / 2) - scrollBar.getHandleHeight() / 2;
 
             if (y < 5) {
                 y = 5;

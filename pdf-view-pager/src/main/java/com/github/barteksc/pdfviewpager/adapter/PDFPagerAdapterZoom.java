@@ -17,14 +17,12 @@
 package com.github.barteksc.pdfviewpager.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.github.barteksc.pdfviewpager.R;
-import com.github.barteksc.pdfviewpager.async.PdfRenderPageAsyncTask;
 
 import java.lang.ref.WeakReference;
 
@@ -42,25 +40,27 @@ public class PDFPagerAdapterZoom extends PDFPagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
+
+        WeakReference<PhotoViewAttacher> attacherRef = attachers.get(position);
+        if (attacherRef != null) {
+            PhotoViewAttacher attacher = attacherRef.get();
+            if (attacher != null) {
+                attacher.cleanup();
+            }
+            attachers.remove(position);
+        }
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         View v = inflater.inflate(R.layout.view_pdf_page, container, false);
         final ImageView iv = (ImageView) v.findViewById(R.id.imageView);
 
         if (!pdfiumReady() || getCount() < position)
             return v;
 
-        executeRenderTask(iv, position, new PdfRenderPageAsyncTask.OnPdfPageRenderListener() {
-            @Override
-            public void onPageRendered(int position, ImageView imageView, Bitmap bitmap) {
-                PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
-                attachers.put(position, new WeakReference<>(attacher));
-                bitmaps.put(position, new WeakReference<>(bitmap));
-                attacher.update();
-            }
-        });
+        PhotoViewAttacher attacher = new PhotoViewAttacher(iv, pdfiumCore, pdfDocument, position);
+        attachers.put(position, new WeakReference<>(attacher));
 
         container.addView(v, 0);
 

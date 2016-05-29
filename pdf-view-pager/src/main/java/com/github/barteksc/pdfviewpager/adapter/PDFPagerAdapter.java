@@ -55,8 +55,6 @@ public class PDFPagerAdapter extends PagerAdapter {
     SparseArray<WeakReference<PdfRenderPageAsyncTask>> asyncTasks;
     LayoutInflater inflater;
 
-    int maxTextureSize;
-
     public PDFPagerAdapter(Context context, String pdfPath) {
         this.pdfPath = pdfPath;
         this.context = context;
@@ -67,7 +65,6 @@ public class PDFPagerAdapter extends PagerAdapter {
 
     protected void init() {
         try {
-            maxTextureSize = getMaxTextureSize();
             pdfiumCore = new PdfiumCore(context);
             pdfDocument = pdfiumCore.newDocument(getSeekableFileDescriptor(pdfPath));
             inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -94,6 +91,10 @@ public class PDFPagerAdapter extends PagerAdapter {
             pfd = context.getContentResolver().openFileDescriptor(Uri.parse(uri.toString()), "rw");
         }
 
+        if(pfd == null) {
+            throw new IOException("Cannot get FileDescriptor for " + path);
+        }
+
         return pfd.getFileDescriptor();
     }
 
@@ -113,7 +114,6 @@ public class PDFPagerAdapter extends PagerAdapter {
             @Override
             public void onPageRendered(int position, ImageView imageView, Bitmap bitmap) {
                 bitmaps.put(position, new WeakReference<>(bitmap));
-                imageView.setImageBitmap(bitmap);
             }
         });
 
@@ -190,45 +190,5 @@ public class PDFPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
-    }
-
-    public static int getMaxTextureSize() {
-        // Safe minimum default size
-        final int IMAGE_MAX_BITMAP_DIMENSION = 2048;
-
-        // Get EGL Display
-        EGL10 egl = (EGL10) EGLContext.getEGL();
-        EGLDisplay display = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
-
-        // Initialise
-        int[] version = new int[2];
-        egl.eglInitialize(display, version);
-
-        // Query total number of configurations
-        int[] totalConfigurations = new int[1];
-        egl.eglGetConfigs(display, null, 0, totalConfigurations);
-
-        // Query actual list configurations
-        EGLConfig[] configurationsList = new EGLConfig[totalConfigurations[0]];
-        egl.eglGetConfigs(display, configurationsList, totalConfigurations[0], totalConfigurations);
-
-        int[] textureSize = new int[1];
-        int maximumTextureSize = 0;
-
-        // Iterate through all the configurations to located the maximum texture size
-        for (int i = 0; i < totalConfigurations[0]; i++) {
-            // Only need to check for width since opengl textures are always squared
-            egl.eglGetConfigAttrib(display, configurationsList[i], EGL10.EGL_MAX_PBUFFER_WIDTH, textureSize);
-
-            // Keep track of the maximum texture size
-            if (maximumTextureSize < textureSize[0])
-                maximumTextureSize = textureSize[0];
-        }
-
-        // Release
-        egl.eglTerminate(display);
-
-        // Return largest texture size found, or default
-        return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
     }
 }

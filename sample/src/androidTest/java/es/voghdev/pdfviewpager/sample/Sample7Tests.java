@@ -19,8 +19,6 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.github.barteksc.pdfviewpager.PDFViewPagerIVZoom;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +42,6 @@ import static org.hamcrest.core.StringContains.containsString;
         startActivity();
 
         onView(withText(R.string.sample7_txt)).perform(click());
-        onView(withClassName(containsString(PDFViewPagerIVZoom.class.getSimpleName()))).check(matches(isDisplayed()));
     }
 
     private MainActivity startActivity() {

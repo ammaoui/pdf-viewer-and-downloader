@@ -10,8 +10,9 @@ Changes in this fork
 --------------------
 * uses [PdfiumAndroid][6] instead of PdfRenderer
 * uses [VerticalViewPager][11] for vertical scrolling
+* uses modified [PhotoView][12] for rendering pages while zomming, that means view is always sharp
+* dropped support for [ImageViewZoom][13] due to previous point
 * optimizes memory usage by recycling views and bitmaps during scroll
-* loads PDF pages in separated AsyncTasks
 * added scrollbar for quick document browsing
 * added convinient AsyncTask for loading adapter with document asynchronously (it doesn't lag UI)
 
@@ -26,7 +27,7 @@ Installation
 
 Add this line in your *app/build.gradle*
 
-    compile 'com.github.barteksc:pdf-view-pager:1.0.1'
+`compile 'com.github.barteksc:pdf-view-pager:1.0.3'`
 
 Usage - Remote PDF's
 --------------------
@@ -185,6 +186,18 @@ Use **ScrollBar** class to place scrollbar view near **PdfViewPager**
 
 ```
 
+Scrollbar styling:
+``` xml
+    <com.github.barteksc.pdfviewpager.view.ScrollBar
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:sb_handleColor="..." <!-- scrollbar handle color -->
+        app:sb_indicatorColor="..." <!-- background color of current page indicator -->
+        app:sb_indicatorTextColor="..." <!-- text color of current page indicator -->
+        android:background="..." <!-- scrollbar background -->
+        />
+```
+
 TODOs
 -----
 
@@ -242,3 +255,5 @@ Contributing
 [9]: http://twitter.com/voghDev
 [10]: http://www.mobiledevstories.com
 [11]: https://github.com/castorflex/VerticalViewPager
+[12]: https://github.com/chrisbanes/PhotoView
+[13]: https://github.com/sephiroth74/ImageViewZoom
