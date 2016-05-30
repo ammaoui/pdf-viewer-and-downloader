@@ -33,7 +33,11 @@ public class PDFPagerAdapterZoom extends PDFPagerAdapter {
     SparseArray<WeakReference<PhotoViewAttacher>> attachers;
 
     public PDFPagerAdapterZoom(Context context, String pdfPath) {
-        super(context, pdfPath);
+        this(context, pdfPath, 1.0f);
+    }
+
+    public PDFPagerAdapterZoom(Context context, String pdfPath, float pageScale) {
+        super(context, pdfPath, pageScale);
         attachers = new SparseArray<>();
     }
 
@@ -59,7 +63,7 @@ public class PDFPagerAdapterZoom extends PDFPagerAdapter {
         if (!pdfiumReady() || getCount() < position)
             return v;
 
-        PhotoViewAttacher attacher = new PhotoViewAttacher(iv, pdfiumCore, pdfDocument, position);
+        PhotoViewAttacher attacher = new PhotoViewAttacher(iv, pdfiumCore, pdfDocument, position, pageScale);
         attachers.put(position, new WeakReference<>(attacher));
 
         container.addView(v, 0);

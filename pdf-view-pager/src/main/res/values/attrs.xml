@@ -3,6 +3,7 @@
     <declare-styleable name="PDFViewPager">
         <attr name="assetFileName" format="string" /> <!-- Load PDF from Asset -->
         <attr name="pdfUrl" format="string" /> <!-- Load PDF from remote URL -->
+        <attr name="pageBitmapScale" format="float|reference" />
     </declare-styleable>
 
     <declare-styleable name="ScrollBar">

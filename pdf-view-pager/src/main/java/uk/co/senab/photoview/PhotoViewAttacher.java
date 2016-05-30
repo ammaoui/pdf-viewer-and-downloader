@@ -172,11 +172,11 @@ public class PhotoViewAttacher implements View.OnTouchListener,
 
     private boolean firstTimeRendered = false;
 
-    public PhotoViewAttacher(ImageView imageView, PdfiumCore pdfiumCore, PdfDocument pdfDocument, int pageIndex) {
-        this(imageView, pdfiumCore, pdfDocument, pageIndex, true);
+    public PhotoViewAttacher(ImageView imageView, PdfiumCore pdfiumCore, PdfDocument pdfDocument, int pageIndex, float pageScale) {
+        this(imageView, pdfiumCore, pdfDocument, pageIndex, pageScale, true);
     }
 
-    public PhotoViewAttacher(ImageView imageView, PdfiumCore pdfiumCore, PdfDocument pdfDocument, int pageIndex, boolean zoomable) {
+    public PhotoViewAttacher(ImageView imageView, PdfiumCore pdfiumCore, PdfDocument pdfDocument, int pageIndex, float pageScale, boolean zoomable) {
         mImageView = new WeakReference<>(imageView);
 
         this.pdfiumCore = pdfiumCore;
@@ -184,7 +184,8 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         this.pageIndex = pageIndex;
 
         pdfiumCore.openPage(pdfDocument, pageIndex);
-        originalBitmapSize.set(pdfiumCore.getPageWidthPoint(pdfDocument, pageIndex), pdfiumCore.getPageHeightPoint(pdfDocument, pageIndex));
+        originalBitmapSize.set((int)(pageScale * pdfiumCore.getPageWidthPoint(pdfDocument, pageIndex)),
+                (int)(pageScale * pdfiumCore.getPageHeightPoint(pdfDocument, pageIndex)));
 
         imageView.setDrawingCacheEnabled(true);
         imageView.setOnTouchListener(this);

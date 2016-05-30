@@ -55,9 +55,16 @@ public class PDFPagerAdapter extends PagerAdapter {
     SparseArray<WeakReference<PdfRenderPageAsyncTask>> asyncTasks;
     LayoutInflater inflater;
 
+    float pageScale = 1.0f;
+
     public PDFPagerAdapter(Context context, String pdfPath) {
+        this(context, pdfPath, 1.0f);
+    }
+
+    public PDFPagerAdapter(Context context, String pdfPath, float pageScale) {
         this.pdfPath = pdfPath;
         this.context = context;
+        this.pageScale = pageScale;
         bitmaps = new SparseArray<>();
         asyncTasks = new SparseArray<>();
         init();
@@ -123,7 +130,7 @@ public class PDFPagerAdapter extends PagerAdapter {
     }
 
     protected void executeRenderTask(ImageView imageView, int position, PdfRenderPageAsyncTask.OnPdfPageRenderListener listener) {
-        PdfRenderPageAsyncTask task = new PdfRenderPageAsyncTask(imageView, position, pdfiumCore, pdfDocument).setOnPdfPageRenderListener(listener);
+        PdfRenderPageAsyncTask task = new PdfRenderPageAsyncTask(imageView, position, pdfiumCore, pdfDocument, pageScale).setOnPdfPageRenderListener(listener);
         asyncTasks.put(position, new WeakReference<>(task));
         task.execute();
     }
@@ -190,5 +197,13 @@ public class PDFPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
+    }
+
+    public float getPageBitmapScale() {
+        return pageScale;
+    }
+
+    public void setPageBitmapScale(float scale) {
+        pageScale = scale;
     }
 }

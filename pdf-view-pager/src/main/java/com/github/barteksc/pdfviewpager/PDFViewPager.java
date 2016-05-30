@@ -27,6 +27,8 @@ import fr.castorflex.android.verticalviewpager.VerticalViewPager;
 public class PDFViewPager extends VerticalViewPager {
     protected Context context;
 
+    protected float pageScale = 1.0f;
+
     public PDFViewPager(Context context, String pdfPath) {
         super(context);
         this.context = context;
@@ -40,7 +42,7 @@ public class PDFViewPager extends VerticalViewPager {
     }
 
     protected void init(String pdfPath) {
-        initAdapter(context, pdfPath);
+        initAdapter(context, pdfPath, 1.0f);
     }
 
     protected void init(AttributeSet attrs) {
@@ -53,14 +55,31 @@ public class PDFViewPager extends VerticalViewPager {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PDFViewPager);
             String assetFileName = a.getString(R.styleable.PDFViewPager_assetFileName);
 
+            float scale = a.getFloat(R.styleable.PDFViewPager_pageBitmapScale, 1.0f);
+
             if (assetFileName != null && assetFileName.length() > 0) {
-                initAdapter(context, assetFileName);
+                initAdapter(context, assetFileName, scale);
             }
             a.recycle();
         }
     }
 
-    protected void initAdapter(Context context, String pdfPath) {
-        setAdapter(new PDFPagerAdapter(context, pdfPath));
+    protected void initAdapter(Context context, String pdfPath, float pageScale) {
+        setAdapter(new PDFPagerAdapter(context, pdfPath, pageScale));
+    }
+
+    public float getPageBitmapScale() {
+        float sc = pageScale;
+        if(getAdapter() != null) {
+            sc = ((PDFPagerAdapter) getAdapter()).getPageBitmapScale();
+        }
+        return sc;
+    }
+
+    public void setPageBitmapScale(float scale) {
+        pageScale = scale;
+        if(getAdapter() != null) {
+            ((PDFPagerAdapter) getAdapter()).setPageBitmapScale(scale);
+        }
     }
 }

@@ -33,13 +33,15 @@ public class PdfRenderPageAsyncTask extends AsyncTask<Void, Void, Void> {
     private PdfiumCore pdfiumCore;
     private PdfDocument pdfDocument;
     private int position;
+    private float pageScale = 1.0f;
     private OnPdfPageRenderListener listener;
 
-    public PdfRenderPageAsyncTask(ImageView imageView, int position, PdfiumCore pdfiumCore, PdfDocument pdfDocument) {
+    public PdfRenderPageAsyncTask(ImageView imageView, int position, PdfiumCore pdfiumCore, PdfDocument pdfDocument, float pageScale) {
         imageViewRef = new WeakReference<>(imageView);
         this.position = position;
         this.pdfiumCore = pdfiumCore;
         this.pdfDocument = pdfDocument;
+        this.pageScale = pageScale;
     }
 
     @Override
