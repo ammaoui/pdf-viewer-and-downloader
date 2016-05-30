@@ -36,16 +36,22 @@ public class PdfOpenAsyncTask extends AsyncTask<Void, Void, Void> {
     private Context context;
     private String path;
     private OnPdfLoadListener listener;
+    private float pageScale;
 
     public PdfOpenAsyncTask(PDFViewPager pdfViewPager, String path) {
         this(pdfViewPager, path, false);
     }
 
     public PdfOpenAsyncTask(PDFViewPager pdfViewPager, String path, boolean isAsset) {
+        this(pdfViewPager, path, isAsset, 1.0f);
+    }
+
+    public PdfOpenAsyncTask(PDFViewPager pdfViewPager, String path, boolean isAsset, float pageScale) {
         this.pdfViewPager = pdfViewPager;
         this.context = pdfViewPager.getContext();
         this.path = path;
         this.isAsset = isAsset;
+        this.pageScale = pageScale;
     }
 
     public PdfOpenAsyncTask setOnPdfLoadListener(OnPdfLoadListener listener) {
@@ -59,7 +65,7 @@ public class PdfOpenAsyncTask extends AsyncTask<Void, Void, Void> {
             if(isAsset) {
                 FileUtil.copyAsset(context, path, new File(context.getCacheDir(), path).getAbsolutePath());
             }
-            pagerAdapterZoom = new PDFPagerAdapterZoom(context, path);
+            pagerAdapterZoom = new PDFPagerAdapterZoom(context, path, pageScale);
         } catch (IOException e) {
             e.printStackTrace();
         }
