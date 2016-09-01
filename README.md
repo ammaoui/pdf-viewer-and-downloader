@@ -1,3 +1,6 @@
+#This fork was an unsuccessful experiment, for working solution please check [AndroidPdfViewer](https://github.com/barteksc/AndroidPdfViewer).
+#Project is no longer maintained.
+
 # PdfViewPager
 
 Android widget to display PDF documents in your Activities or Fragments.
